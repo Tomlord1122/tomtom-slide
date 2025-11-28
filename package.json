@@ -3,8 +3,12 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "slidev build",
+    "build": "node build.js",
+    "build:single": "slidev build",
     "dev": "slidev --open",
+    "dev:intro": "slidev intro.md --open",
+    "dev:workshop": "slidev workshop.md --open",
+    "dev:deepdive": "slidev deepdive.md --open",
     "export": "slidev export"
   },
   "dependencies": {

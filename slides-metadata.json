@@ -1,0 +1,28 @@
+{
+  "slides": [
+    {
+      "name": "intro",
+      "title": "Welcome to Slidev",
+      "description": "An introduction to Slidev and presentation slides for developers",
+      "category": "Getting Started",
+      "path": "intro",
+      "file": "intro.md"
+    },
+    {
+      "name": "workshop",
+      "title": "Workshop Guide",
+      "description": "A hands-on guide to building modern web applications",
+      "category": "Tutorials",
+      "path": "workshop",
+      "file": "workshop.md"
+    },
+    {
+      "name": "deepdive",
+      "title": "Deep Dive",
+      "description": "Advanced web development patterns and architectures",
+      "category": "Advanced",
+      "path": "deepdive",
+      "file": "deepdive.md"
+    }
+  ]
+}
