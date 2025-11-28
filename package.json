@@ -5,10 +5,7 @@
   "scripts": {
     "build": "node build.js",
     "build:single": "slidev build",
-    "dev": "slidev --open",
-    "dev:intro": "slidev slides/getting-started/intro.md --open",
-    "dev:workshop": "slidev slides/tutorials/workshop.md --open",
-    "dev:deepdive": "slidev slides/advanced/deepdive.md --open",
+    "dev": "node dev.js",
     "export": "slidev export"
   },
   "dependencies": {
