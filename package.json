@@ -6,15 +6,16 @@
     "build": "node build.js",
     "build:single": "slidev build",
     "dev": "slidev --open",
-    "dev:intro": "slidev intro.md --open",
-    "dev:workshop": "slidev workshop.md --open",
-    "dev:deepdive": "slidev deepdive.md --open",
+    "dev:intro": "slidev slides/getting-started/intro.md --open",
+    "dev:workshop": "slidev slides/tutorials/workshop.md --open",
+    "dev:deepdive": "slidev slides/advanced/deepdive.md --open",
     "export": "slidev export"
   },
   "dependencies": {
     "@slidev/cli": "^52.10.0",
     "@slidev/theme-default": "latest",
     "@slidev/theme-seriph": "latest",
+    "glob": "^13.0.0",
     "vue": "^3.5.25"
   }
 }

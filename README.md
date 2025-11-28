@@ -1,24 +1,30 @@
 # Slidev Multi-Deck Repository
 
-A beautiful, organized collection of Slidev presentations with an elegant explorer interface. This repository supports building and deploying multiple Slidev decks from a single repo with automatic GitHub Pages deployment.
+A beautiful, organized collection of Slidev presentations with an elegant explorer interface. This repository supports building and deploying multiple Slidev decks from a single repo with **automatic slide discovery** and GitHub Pages deployment.
 
 ## Features
 
 - 🎨 **Multiple Slide Decks** - Manage multiple presentations in one repository
 - 🔍 **Beautiful Explorer** - Vintage-styled index page with search and categorization
 - 🚀 **Auto Deployment** - GitHub Actions automatically builds and deploys on push
-- 📦 **Organized Structure** - Group slides by categories for better organization
+- 📦 **Auto Discovery** - Just add `.md` files, no configuration needed!
+- 🗂️ **Folder-based Categories** - Organize slides with subdirectories
 - ⚡ **Individual Dev Servers** - Develop each deck independently
 
 ## Repository Structure
 
 ```
 .
-├── intro.md                 # First slide deck
-├── workshop.md              # Second slide deck
-├── deepdive.md              # Third slide deck
-├── slides-metadata.json     # Metadata for all decks
-├── build.js                 # Multi-deck build script
+├── slides/
+│   ├── getting-started/
+│   │   └── intro.md         # Auto-discovered slide
+│   ├── tutorials/
+│   │   └── workshop.md      # Auto-discovered slide
+│   ├── advanced/
+│   │   └── deepdive.md      # Auto-discovered slide
+│   └── demos/
+│       └── new-feature.md   # Auto-discovered slide
+├── build.js                 # Auto-discovery build script
 ├── index-template.html      # Explorer page template
 ├── package.json
 └── .github/
@@ -32,21 +38,20 @@ A beautiful, organized collection of Slidev presentations with an elegant explor
 
 1. **Install dependencies:**
    ```bash
-   npm install
-   # or
    pnpm install
+   # or npm install
    ```
 
 2. **Develop a specific deck:**
    ```bash
-   npm run dev:intro      # Open intro.md
-   npm run dev:workshop   # Open workshop.md
-   npm run dev:deepdive   # Open deepdive.md
+   pnpm dev:intro      # Open intro.md
+   pnpm dev:workshop   # Open workshop.md
+   pnpm dev:deepdive   # Open deepdive.md
    ```
 
-3. **Or open the default deck:**
+3. **Or open with file path:**
    ```bash
-   npm run dev
+   npx slidev slides/getting-started/intro.md
    ```
 
 ### Build All Decks
@@ -54,12 +59,13 @@ A beautiful, organized collection of Slidev presentations with an elegant explor
 Build all slide decks at once:
 
 ```bash
-npm run build
+pnpm build
 ```
 
 This will:
-- Read `slides-metadata.json` to find all decks
-- Build each deck to `dist/<deck-name>/`
+- **Auto-scan** `slides/` directory for all `.md` files
+- Extract metadata from frontmatter (title, description)
+- Build each deck to `dist/<category-name>/`
 - Generate the explorer index page at `dist/index.html`
 - Add last modified dates automatically
 
@@ -75,82 +81,125 @@ Visit `http://localhost:4173` to see the explorer page.
 
 ## Adding New Slide Decks
 
-1. **Create a new Slidev markdown file:**
+### Super Simple Workflow ✨
+
+1. **Create a new markdown file in `slides/` directory:**
    ```bash
-   touch my-new-deck.md
+   # Create in a category folder (recommended)
+   touch slides/tutorials/my-tutorial.md
+
+   # Or create a new category
+   mkdir slides/projects
+   touch slides/projects/my-project.md
    ```
 
-2. **Add frontmatter to your deck:**
+2. **Add frontmatter and content:**
    ```markdown
    ---
    theme: default
-   title: My New Deck
+   title: My Tutorial
+   info: |
+     ## My Awesome Tutorial
+     Learn something amazing!
    ---
 
-   # My New Deck
+   # My Tutorial
 
    Start creating your slides...
    ```
 
-3. **Update `slides-metadata.json`:**
-   ```json
-   {
-     "slides": [
-       {
-         "name": "my-new-deck",
-         "title": "My New Deck",
-         "description": "Description of your new deck",
-         "category": "Tutorials",
-         "path": "my-new-deck",
-         "file": "my-new-deck.md"
-       }
-     ]
-   }
-   ```
-
-4. **Add dev script to `package.json` (optional):**
-   ```json
-   {
-     "scripts": {
-       "dev:my-new-deck": "slidev my-new-deck.md --open"
-     }
-   }
-   ```
-
-5. **Build and test:**
+3. **That's it! Just commit and push:**
    ```bash
-   npm run dev:my-new-deck  # Develop
-   npm run build            # Build all decks
+   git add slides/tutorials/my-tutorial.md
+   git commit -m "Add my tutorial slides"
+   git push
    ```
 
-## Metadata Configuration
+4. **Your slide will automatically:**
+   - ✅ Be discovered during build
+   - ✅ Get its category from folder name (`tutorials` → `Tutorials`)
+   - ✅ Extract title from frontmatter
+   - ✅ Extract description from `info` field
+   - ✅ Appear in the explorer index page
 
-The `slides-metadata.json` file defines all your slide decks:
+**No configuration files to edit!** 🎉
 
-```json
-{
-  "slides": [
-    {
-      "name": "deck-name",           // Unique identifier
-      "title": "Display Title",       // Shown in explorer
-      "description": "Short desc",    // Card description
-      "category": "Category Name",    // Groups decks together
-      "path": "url-path",            // URL path (e.g., /repo/path/)
-      "file": "source-file.md"       // Source markdown file
-    }
-  ]
-}
+## How Auto-Discovery Works
+
+The build script automatically:
+
+1. **Scans** `slides/**/*.md` for all markdown files
+2. **Extracts** metadata from frontmatter:
+   - `title` → Display title
+   - `info` → Description (first line)
+3. **Infers** category from folder structure:
+   - `slides/getting-started/intro.md` → Category: "Getting Started"
+   - `slides/tutorials/demo.md` → Category: "Tutorials"
+   - `slides/my-slide.md` → Category: "General"
+4. **Builds** each slide with proper base path
+5. **Generates** index.html with all slides
+
+## Folder Structure Best Practices
+
+Organize your slides by category using folders:
+
+```
+slides/
+├── getting-started/    # Beginner content
+│   ├── intro.md
+│   └── setup.md
+├── tutorials/          # Step-by-step guides
+│   ├── workshop.md
+│   └── advanced-workshop.md
+├── advanced/           # Deep dives
+│   └── deepdive.md
+├── demos/             # Feature showcases
+│   └── new-feature.md
+└── projects/          # Project presentations
+    └── quarterly-review.md
 ```
 
-### Categories
+**Folder names become categories:**
+- `getting-started` → "Getting Started"
+- `tutorials` → "Tutorials"
+- `my-awesome-category` → "My Awesome Category"
 
-Decks are automatically grouped by category in the explorer:
-- **Getting Started** - Introductory content
-- **Tutorials** - Hands-on guides
-- **Advanced** - Deep-dive topics
-- **General** - Uncategorized (default)
+## Frontmatter Configuration
 
-You can create your own categories!
+### Minimal Example
+
+```yaml
+---
+theme: default
+title: My Presentation
+---
+```
+
+### Full Example
+
+```yaml
+---
+theme: seriph
+title: Advanced Web Development
+info: |
+  ## Deep Dive into Performance
+  Learn optimization techniques and best practices.
+background: https://images.unsplash.com/photo-1234567890
+class: text-center
+transition: slide-left
+mdc: true
+---
+```
+
+### Frontmatter Fields
+
+- `title` - **Required**. Display title (used in explorer)
+- `info` - **Recommended**. Description (first line shown in explorer)
+- `theme` - Slidev theme (`default`, `seriph`, etc.)
+- `background` - Background image URL
+- `class` - CSS classes for first slide
+- `transition` - Slide transition animation
+- `mdc` - Enable MDC syntax
 
 ## GitHub Pages Deployment
 
@@ -162,13 +211,14 @@ You can create your own categories!
 
 2. **Push to main branch:**
    ```bash
-   git add .
-   git commit -m "Add new slide deck"
+   git add slides/my-category/my-slide.md
+   git commit -m "Add new presentation"
    git push origin main
    ```
 
 3. **GitHub Actions will automatically:**
    - Install dependencies
+   - Scan `slides/` directory
    - Build all slide decks
    - Generate the explorer page
    - Deploy to GitHub Pages
@@ -178,12 +228,12 @@ You can create your own categories!
 After deployment, your decks will be available at:
 
 - **Explorer:** `https://<username>.github.io/<repo-name>/`
-- **Individual decks:** `https://<username>.github.io/<repo-name>/<deck-path>/`
+- **Individual decks:** `https://<username>.github.io/<repo-name>/<category>-<slide-name>/`
 
 Example:
 - Explorer: `https://tom-liu.github.io/tomtom-slide/`
-- Intro deck: `https://tom-liu.github.io/tomtom-slide/intro/`
-- Workshop: `https://tom-liu.github.io/tomtom-slide/workshop/`
+- Tutorial: `https://tom-liu.github.io/tomtom-slide/tutorials-workshop/`
+- Demo: `https://tom-liu.github.io/tomtom-slide/demos-new-feature/`
 
 ## Explorer Features
 
@@ -191,21 +241,9 @@ The index page includes:
 
 - 🎨 **Vintage Design** - Beautiful earth-tone color palette with serif fonts
 - 🔍 **Real-time Search** - Filter decks by name, title, description, or category
-- 📊 **Smart Grouping** - Automatic categorization
+- 📊 **Smart Grouping** - Automatic categorization from folder structure
 - 📅 **Last Modified** - Shows when each deck was last updated
 - 📱 **Responsive** - Works on all screen sizes
-
-## Build Script Details
-
-The `build.js` script:
-
-1. Reads `slides-metadata.json`
-2. Builds each deck with correct base path
-3. Outputs to `dist/<deck-path>/`
-4. Generates `dist/index.html` with:
-   - Injected slide metadata
-   - Automatic last modified dates
-   - Configured base URL
 
 ## Advanced Usage
 
@@ -222,7 +260,7 @@ node build.js --base=/custom-path/
 To build just one deck manually:
 
 ```bash
-npx slidev build intro.md --base /tomtom-slide/intro/ --out dist/intro
+npx slidev build slides/tutorials/workshop.md --base /repo/tutorials-workshop/ --out dist/tutorials-workshop
 ```
 
 ### Export to PDF
@@ -230,17 +268,13 @@ npx slidev build intro.md --base /tomtom-slide/intro/ --out dist/intro
 Export a specific deck to PDF:
 
 ```bash
-npx slidev export intro.md --output intro-slides.pdf
+npx slidev export slides/tutorials/workshop.md --output workshop-slides.pdf
 ```
 
-### Without Speaker Notes
+### Development Server for Any Deck
 
-Build decks without speaker notes for public sharing:
-
-Edit `build.js` and add `--without-notes`:
-
-```javascript
-const cmd = `npx slidev build ${slide.file} --base ${base}${slide.path}/ --out dist/${slide.path} --without-notes`;
+```bash
+npx slidev slides/path/to/your-deck.md --open
 ```
 
 ## Customization
@@ -266,17 +300,17 @@ theme: default  # or seriph, apple-basic, etc.
 Install additional themes:
 
 ```bash
-npm install @slidev/theme-NAME
+pnpm add @slidev/theme-NAME
 ```
 
 ## Troubleshooting
 
-### Build fails with "Cannot find module"
+### Build fails with "No slide files found"
 
-Make sure all dependencies are installed:
-```bash
-npm install
-```
+Make sure:
+- Slides are in `slides/` directory
+- Files have `.md` extension
+- Files contain valid frontmatter
 
 ### Slides don't load on GitHub Pages
 
@@ -285,12 +319,11 @@ Check that:
 2. GitHub Pages is enabled
 3. Workflow has proper permissions
 
-### Explorer shows no decks
+### Category not showing correctly
 
-Verify:
-1. `slides-metadata.json` is valid JSON
-2. All file paths in metadata exist
-3. Build script completed successfully
+- Category is auto-detected from folder name
+- Use kebab-case for folders: `my-category` → "My Category"
+- Slides in root `slides/` folder go to "General" category
 
 ## Resources
 
