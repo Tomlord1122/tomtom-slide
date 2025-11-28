@@ -1,18 +1,17 @@
 ---
-theme: default
+theme: seriph
+themeConfig:
+  primary: '#5d8392'
 background: https://images.unsplash.com/photo-1555066931-4365d14bab8c
 title: Slide Starter Template
 info: |
   ## Starter Template
   A template with code examples, transitions, and v-mark highlights.
-class: text-center
+class: text-centerj
 drawings:
   persist: false
 transition: slide-left
 mdc: true
-fonts:
-  sans: Inter
-  mono: Fira Code
 highlighter: shiki
 lineNumbers: false
 colorSchema: dark

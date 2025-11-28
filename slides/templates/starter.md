@@ -1,26 +1,25 @@
 ---
-theme: default
-background: https://images.unsplash.com/photo-1555066931-4365d14bab8c
+theme: seriph
+themeConfig:
+  primary: '#101828' # dark: 323232, white: 101828
+background: /background.webp
 title: Slide Starter Template
 info: |
   ## Starter Template
   A template with code examples, transitions, and v-mark highlights.
 class: text-center
 drawings:
-  persist: false
+  persist: true
 transition: slide-left
 mdc: true
-fonts:
-  sans: Inter
-  mono: Fira Code
 highlighter: shiki
-lineNumbers: false
-colorSchema: dark
+lineNumbers: true
+colorSchema: light
 ---
 
 <style>
 .slidev-layout {
-  background: linear-gradient(-45deg,rgb(7, 58, 7), #323232);
+  background: linear-gradient(-45deg,rgb(37, 51, 37), #EAEAEA);
   background-size: 400% 400%;
 }
 </style>
@@ -29,7 +28,7 @@ colorSchema: dark
 
 Code Examples & Highlighting Demo
 <div class="pt-12">
-  <span @click="$slidev.nav.next" class="px-2 py-1 rounded cursor-pointer" hover="bg-white bg-opacity-10">
+  <span @click="$slidev.nav.next" class="px-2 py-1 rounded cursor-pointer " hover="bg-white bg-opacity-10">
     Press Space to continue <carbon:arrow-right class="inline"/>
   </span>
 </div>
@@ -37,6 +36,12 @@ Code Examples & Highlighting Demo
 <div class="abs-tl m-6">
   <a href="https://tomlord.fyi" target="_blank" title="Visit my website">
     <img src="/Avatar.png" class="w-16 h-16 rounded-full" alt="Avatar" />
+  </a>
+</div>
+
+<div class="abs-bl m-6">
+  <a href="https://tomlord.fyi" target="_blank" title="Visit my website">
+    <img src="/tm.webp" class="w-full h-12" alt="trend micro" />
   </a>
 </div>
 
@@ -48,7 +53,6 @@ Code Examples & Highlighting Demo
 </div>
 
 ---
-transition: fade-out
 layout: default
 ---
 
