@@ -164,6 +164,52 @@ slides/
 - `tutorials` → "Tutorials"
 - `my-awesome-category` → "My Awesome Category"
 
+## Static Assets (Images, etc.)
+
+Due to a [Slidev limitation](https://github.com/slidevjs/slidev/issues/2161), static assets like images need special handling when your slide files are in subdirectories.
+
+### Rules for Using Images in Slides
+
+1. **Each slide directory needs its own `public/` folder:**
+   ```
+   slides/
+   ├── templates/
+   │   ├── starter.md
+   │   └── public/           # <-- Put images here
+   │       └── Avatar.png
+   ├── tutorials/
+   │   ├── workshop.md
+   │   └── public/           # <-- Each category needs its own
+   │       └── diagram.png
+   ```
+
+2. **Use absolute paths in your slides:**
+   ```html
+   <img src="/Avatar.png" class="w-16 h-16 rounded-full" />
+   ```
+
+3. **Why not a shared `public/` folder?**
+   - Slidev expects `public/` to be in the same directory as the entry `.md` file
+   - When slides are in subdirectories (e.g., `slides/templates/starter.md`), Slidev cannot find a root-level `public/` folder
+   - This is a known bug in Slidev (#2161)
+
+### Root `public/` Folder (for index.html only)
+
+The root `public/` folder is used **only for the explorer page** (`index-template.html`), not for slides:
+
+```
+.
+├── public/
+│   └── app_icon.png        # Used by index.html
+├── slides/
+│   └── templates/
+│       ├── starter.md
+│       └── public/
+│           └── Avatar.png  # Used by starter.md
+```
+
+The build script automatically copies `public/` to `dist/` for the explorer page.
+
 ## Frontmatter Configuration
 
 ### Minimal Example
