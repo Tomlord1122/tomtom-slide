@@ -221,6 +221,14 @@ fs.writeFileSync('dist/index.html', indexContent);
 
 console.log('✅ Index page generated successfully');
 
+// Copy root public folder to dist
+const rootPublicDir = path.join(__dirname, 'public');
+if (fs.existsSync(rootPublicDir)) {
+  console.log('📁 Copying public assets to dist...');
+  fs.cpSync(rootPublicDir, path.join(__dirname, 'dist'), { recursive: true });
+  console.log('✅ Public assets copied');
+}
+
 // Summary
 const builtCount = slidesToBuild.length;
 const skippedCount = skippedSlides.length;

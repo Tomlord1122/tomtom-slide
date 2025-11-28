@@ -36,7 +36,7 @@ Code Examples & Highlighting Demo
 
 <div class="abs-tl m-6">
   <a href="https://tomlord.fyi" target="_blank" title="Visit my website">
-    <img src="./static/Avatar.png" class="w-16 h-16 rounded-full" alt="Avatar" />
+    <img src="/Avatar.png" class="w-16 h-16 rounded-full" alt="Avatar" />
   </a>
 </div>
 
