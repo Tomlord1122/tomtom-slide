@@ -3,12 +3,13 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "node build.js",
+    "build": "bun build.js",
     "build:single": "slidev build",
-    "dev": "node dev.js",
+    "dev": "bun dev.js",
     "export": "slidev export"
   },
   "dependencies": {
+    "@inquirer/prompts": "^8.0.2",
     "@slidev/cli": "^52.10.0",
     "@slidev/theme-default": "latest",
     "@slidev/theme-seriph": "latest",
