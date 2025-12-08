@@ -148,7 +148,7 @@ Temporal is an **open-source durable execution platform** originally created by 
 Temporal High-Level Architecture and it's execution flow.
 
 <code v-click="1">go get go.temporal.io/sdk</code>
-<div v-click="2" class="text-gray-600"><span v-mark.circle.orange="3">What's Temporal Workflow and Temporal Activity?</span></div>
+<div v-click="2" class="text-gray-600"><span v-mark.circle.orange="3">What are Temporal Workflow and Temporal Activity?</span></div>
 
 <div class="flex justify-between gap-2">
 <img src="/temporal_arch.png" class="w-124 h-full object-contain"/>
@@ -322,6 +322,7 @@ Link:
   <img v-click src="/commands-events.012.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
   <img v-click src="/commands-events.013.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
   <img v-click src="/commands-events.014.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
+  <img v-click src="/workflow_complete.png" class="absolute inset-0 w-full h-full object-contain"/>
 </div>
 
 
