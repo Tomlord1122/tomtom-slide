@@ -1,5 +1,5 @@
 ---
-theme: Seriph
+theme: seriph
 themeConfig:
   primary: '#323232' # dark: 323232, white: 101828
 background: /background.webp
@@ -151,8 +151,8 @@ Temporal High-Level Architecture and it's execution flow.
 <div v-click="2" class="text-gray-600"><span v-mark.circle.orange="3">What's Temporal Workflow and Temporal Activity?</span></div>
 
 <div class="flex justify-between gap-2">
-<img src="/temporal_arch.png" class="w-124 h-full"/>
-<img src="/execution_flow.png" class="w-96 h-full"/>
+<img src="/temporal_arch.png" class="w-124 h-full object-contain"/>
+<img src="/execution_flow.png" class="w-96 h-full object-contain"/>
 </div>
 </div>
 
