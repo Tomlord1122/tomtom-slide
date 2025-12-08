@@ -292,16 +292,17 @@ func ExampleWorkflow(ctx workflow.Context, input Input) (string, error) {
 
 ---
 
-# Signal Pattern
+# Signal Pattern and Helm Charts
 
 
-In our use case, some tasks require waiting for a service response for an extended period. We currently handle this with a callback flow: the external service calls the flow service to signal that the work is complete.
+In our use case, some tasks must wait for a service response for an extended period. We currently handle this with a callback flow: the external service calls the flow service to indicate completion.
 
 With Temporal, we can use its Signal pattern. It’s a good fit and integrates cleanly with our current implementation.
 
-Link:
-[Temporal Signal Pattern](https://docs.temporal.io/handling-messages)
+Temporal also provides a Helm chart template, which reduces the effort required to self-host.
 
+1. [Temporal Signal Pattern](https://docs.temporal.io/handling-messages)
+2. [Temporal Helm Chart](https://github.com/temporalio/helm-charts)
 
 ---
 
