@@ -57,13 +57,12 @@ A Durable Execution Platform that help orchestrate microservice
 
 # Outline
 <div class="text-2xl">
-<li v-click>Flow Service in Nutshell</li>
-<li v-click>Design Consideration</li>
-<li v-click>Temporal Introduction</li>
-<li v-click>Event History Example</li>
-<li v-click>Refactor Flow</li>
-<li v-click>Demo Screenshot</li>
-<li v-click>Argo Workflow vs. Airflow vs. Temporal</li>
+<li v-click="1">Flow Service in Nutshell</li>
+<li v-click="1">Design Consideration</li>
+<li v-click="2">Temporal Introduction</li>
+<li v-click="2">Event History Example</li>
+<li v-click="3">Refactor AI-FP Flow</li>
+<li v-click="3">Argo Workflow vs. Airflow vs. Temporal</li>
 </div>
 
 
