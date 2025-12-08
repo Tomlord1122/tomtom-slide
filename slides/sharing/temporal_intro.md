@@ -5,7 +5,6 @@ themeConfig:
 background: /background.webp
 title: Temporal Introduction
 info: |
-  ## Starter Template
   A Durable Execution Platform that help orchestrate microservice
 class: text-center
 drawings:
