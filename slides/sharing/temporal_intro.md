@@ -54,16 +54,19 @@ A Durable Execution Platform that help orchestrate microservice
 
 ---
 
-# Outline
-<div class="text-2xl">
-<li v-click="1">Flow Service in Nutshell</li>
-<li v-click="1">Design Consideration</li>
-<li v-click="2">Temporal Introduction</li>
-<li v-click="2">Event History Example</li>
-<li v-click="3">Refactor AI-FP Flow</li>
-<li v-click="3">Argo Workflow vs. Airflow vs. Temporal</li>
-</div>
+## Outline
 
+<br/>
+
+- #### **Background**
+  - Close Loop Flow Service Introduction
+  - Design Consideration
+- #### **Temporal Introduction** 
+  - Architecture Overview
+  - Temporal Workflow
+  - Temporal Activity
+- #### **Demo**
+- #### **Conclusion**
 
 ---
 layout: image-right
@@ -71,7 +74,7 @@ image: /flow-service.png
 backgroundSize: cover
 ---
 
-##  Flow Service in Nutshell
+##  Close Loop Flow Service
 
 <div v-click="1" class="mb-3 mt-3">
 
@@ -98,23 +101,27 @@ image: /fn-flow.png
 backgroundSize: contain
 ---
 
-# Design Consideration
+## Design Consideration
 
 
-Currently, Flow Service handles three flows:
+Flow Service handles two types of cases
 
-1. FN Flow
-2. FP Flow
-3. AgenticAI FP Flow
+1. FN Case
+2. FP Case
 
+<div v-click="1">
 
-<div v-click>
-
-Designing robust **error handling**, **retry mechanisms**, and **flow-state management** is therefore critical. Currently, the flow service does not implement these capabilities. 
+Our requirements:
+1. **Robust error handling**
+2. **Retry mechanisms**
+3. **Flow-state management**
+4. **Observability & visibility**
+5. **Easy to develop**
+6. **Reduce maintenance overhead**
 
 </div>
 
-<div v-click="1">
+<div v-click="2">
 
 <span v-mark.underline.red="2">Which tool can satisfy our requirements?</span>
 
@@ -124,14 +131,14 @@ Designing robust **error handling**, **retry mechanisms**, and **flow-state mana
 
 <div>
 
-# Temporal Intro
+## Temporal Intro
 
-Temporal is an **open-source durable execution platform** originally created by former Uber engineers. It solves the complexity of building reliable distributed systems by providing:
+Temporal is an <span class="text-red-600">**open-source durable execution platform**</span> originally created by former Uber engineers. It solves the complexity of building reliable distributed systems by providing:
 
-- **Automatic state management**: Your <span v-mark.underline.red>workflow state is automatically persited</span>
-- **Failure recover**: <span v-mark.underline.red>Automatic retries</span> and recovery from failures
-- **Long-running workflows**: Provide some pattern to support for workflows that run for hours, days, or even months.
-- **Visibility**: Built-in observability into workflow execution
+- **Automatic state management**: Your <span v-mark.highlight.yellow>workflow state is automatically persited</span>
+- **Failure recover**: <span v-mark.highlight.yellow>Automatic retries</span> and easy to recovery from failures
+- **Long-running workflows**: Workflows can run for <span v-mark.highlight.yellow>hours, days, or even months</span>.
+- **Visibility**: <span v-mark.highlight.yellow>Built-in observability</span> into workflow execution
 
 <div v-click class="flex justify-between">
 <img src="/temporal_logo.png" class="w-1/3"/>
@@ -142,17 +149,65 @@ Temporal is an **open-source durable execution platform** originally created by 
 
 <div>
 
-# Architecture Overview
+## Architecture Overview (1/2)
 
-Temporal High-Level Architecture and it's execution flow.
-
-<code v-click="1">go get go.temporal.io/sdk</code>
-<div v-click="2" class="text-gray-600"><span v-mark.circle.orange="3">What are Temporal Workflow and Temporal Activity?</span></div>
-
-<div class="flex justify-between gap-2">
-<img src="/temporal_arch.png" class="w-124 h-full object-contain"/>
-<img src="/execution_flow.png" class="w-96 h-full object-contain"/>
+Temporal High-Level Architecture <code v-click>go get go.temporal.io/sdk</code>
+<div class="flex justify-center items-center">
+<img src="/temporal_arch.png" class="w-2/3 object-contain rounded-lg"/>
 </div>
+</div>
+
+
+---
+
+
+## Architecture Overview (2/2)
+
+Execution flow
+
+<div class="flex justify-center items-center w-full h-full">
+<div class="bg-white p-1 rounded-lg scale-150 mb-20">
+
+```mermaid
+sequenceDiagram
+    participant Client as Temporal Client
+    participant Server as Temporal Server
+    participant Queue as Task Queue
+    participant Worker as Temporal Worker
+
+    Client->>Server: ExecuteWorkflow()
+    Server->>Server: 1. Persist Input<br/>2. Create Event History<br/>3. Schedule Task
+    Server-->>Client: Return WorkflowRun
+    Server->>Queue: Add Task
+    Worker->>Queue: Poll Task Queue
+    Queue-->>Worker: Receive Task
+    Worker->>Worker: Execute Code<br/>(Workflow/Activity)
+    Worker->>Server: Report Result
+    Server->>Server: Update Event History
+```
+
+</div>
+</div>
+
+---
+
+## Execution Example (Event History)
+
+<div class="relative w-full h-full">
+  <img v-click src="/commands-events.002.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
+  <img v-click src="/commands-events.003.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
+  <img v-click src="/commands-events.004.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
+  <img v-click src="/commands-events.005.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
+  <img v-click src="/commands-events.006.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
+  <img v-click src="/commands-events.007.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
+  <img v-click src="/commands-events.008.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
+  <img v-click src="/commands-events.009.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
+  <img v-click src="/commands-events.010.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
+  <img v-click src="/commands-events.011.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
+  <img v-click src="/commands-events.012.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
+  <img v-click src="/commands-events.013.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
+  <img v-click src="/commands-events.014.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
+  <img v-click src="/workflow_complete.png" class="absolute inset-0 w-full h-full object-contain"/>
 </div>
 
 
@@ -160,7 +215,7 @@ Temporal High-Level Architecture and it's execution flow.
 
 ---
 
-# Temporal Workflow
+## Temporal Workflow
 
 A **Workflow** is a durable function that orchestrates **Activities**. Think of it as your business logic coordinator.
 
@@ -183,9 +238,14 @@ func ExampleWorkflow(ctx workflow.Context, input Input) (string, error) {
 <img v-click src="/workflow_flow.png" class="w-1/3 h-full">
 </div>
 
+<!--
+asdasdad
+asdasd
+-->
+
 ---
 
-# Temporal Activity
+## Temporal Activity
 
 An **Activity** is **a single, well-defined action** (like **calling an API**, database operation, or sending an email). In our case, Temporal Activity should be lots of close-loop microservice call.
 <div class="flex gap-4">
@@ -211,7 +271,7 @@ func (a *exampleActivity) Activity1(ctx context.Context, input Input) (string, e
 
 ---
 
-# Temporal Code Example
+## Temporal Code Example
 
 ````md magic-move
 ```go {1-4|6-19|all}
@@ -289,74 +349,83 @@ func ExampleWorkflow(ctx workflow.Context, input Input) (string, error) {
 ```
 ````
 
-
 ---
 
-# Signal Pattern and Helm Charts
+## Demo (AI-FP)
 
-
-In our use case, some tasks must wait for a service response for an extended period. We currently handle this with a callback flow: the external service calls the flow service to indicate completion.
-
-With Temporal, we can use its Signal pattern. It’s a good fit and integrates cleanly with our current implementation.
-
-Temporal also provides a Helm chart template, which reduces the effort required to self-host.
-
-1. [Temporal Signal Pattern](https://docs.temporal.io/handling-messages)
-2. [Temporal Helm Chart](https://github.com/temporalio/helm-charts)
-
----
-
-# Event-History Example
-
-<div class="relative w-full h-full">
-  <img v-click src="/commands-events.002.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
-  <img v-click src="/commands-events.003.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
-  <img v-click src="/commands-events.004.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
-  <img v-click src="/commands-events.005.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
-  <img v-click src="/commands-events.006.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
-  <img v-click src="/commands-events.007.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
-  <img v-click src="/commands-events.008.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
-  <img v-click src="/commands-events.009.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
-  <img v-click src="/commands-events.010.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
-  <img v-click src="/commands-events.011.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
-  <img v-click src="/commands-events.012.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
-  <img v-click src="/commands-events.013.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
-  <img v-click src="/commands-events.014.jpeg" class="absolute inset-0 w-full h-full object-contain"/>
-  <img v-click src="/workflow_complete.png" class="absolute inset-0 w-full h-full object-contain"/>
-</div>
-
-
----
-
-# Refactor Flow (AI-FP)
-
-<div class="flex h-full w-full justify-between items-center">
-<img v-click src="/current_ai_fp.png" class="w-2/5 h-full object-contain"/>
-<img v-click src="/aifp_temporal.png" class="w-3/5 h-full object-contain"/>
+<div class="relative h-full w-full justify-center items-center">
+<img src="/current_ai_fp.png" class="absolute inset-0 w-full h-full object-contain"/>
+<img v-click src="/aifp_temporal.png" class="absolute inset-0 w-full h-full object-contain"/>
 </div>
 
 ---
 
-## Argo Workflow vs. Airflow vs. Temporal
 
-<div class="text-xs">
+## Temporal Advanced Pattern
+
+<br/>
+
+- **Long time service call:**  <span v-click>[Temporal Signal Pattern](https://docs.temporal.io/handling-messages)</span>
+   
+  <span v-click>Release the worker and wait for the callback signal</span>
+  
+  <span v-click>After receiving the signal, reassign the workflow to another worker.</span>
+
+<div v-click class="flex justify-center items-center w-full">
+<div class="bg-white rounded-lg scale-180 mt-15">
+
+```mermaid
+sequenceDiagram
+    participant W1 as Worker 1
+    participant Server as Temporal Server
+    participant Ext as External Service
+    participant W2 as Worker 2
+
+    W1->>Ext: Call long-running service
+    W1->>Server: Release worker (wait for signal)
+    Note over W1: Worker 1 is free
+    Ext-->>Server: Callback signal received
+    Server->>W2: Reassign workflow
+    W2->>W2: Continue execution
+```
+
+</div>
+</div>
+
+---
+
+
+## Conclusion
+
+<!-- <div class="text-xs">
 
 | **Requirement** | Temporal | Argo Workflows | Airflow |
 |-------------|:--------:|:--------------:|:-------:|
-| Per-step retry with timeouts/backoff | ✅ | ⚠️ | ✅ |
-| Durable state & event history | ✅ | ⚠️ | ⚠️ |
+| Robust error handling | ✅ | ✅ | ✅ |
+| Retry mechanisms | ✅ | ⚠️ | ⚠️ |
 | Observability & visibility | ✅ | ✅ | ✅ |
 | Event-driven | ✅ | ⚠️ | ⚠️ |
-| Batch ETL | ⚠️ | ✅ | ✅ |
-| Concurrency control | ✅ | ⚠️ | ⚠️ |
-| Kubernetes-native parallel compute | ⚠️ | ✅ | ⚠️ |
-| Go support (SDK/authoring) | ✅ | ✅ | ⚠️ |
+| Go support (SDK) | ✅ | ✅ | ⚠️ |
 
-</div>
+</div> -->
+
+
 
 <div class="text-sm mt-4 opacity-100">
 
-✅ = Native support &nbsp;&nbsp; ⚠️ = Partial / requires custom implementation
+<!-- ✅ = Native support &nbsp;&nbsp; ⚠️ = Partial / requires custom implementation -->
 <div v-click="1">With <span v-mark.highlight.yellow="2">a mature Go SDK</span> and an <span v-mark.highlight.yellow="2">architecture that aligns well with our codebase</span>, Temporal seems like a good choice.</div>
+
+<span v-click="3">It solve our requirement:</span>
+
+<div v-click="4">
+
+1. Robust error handling
+2. Auto Retry mechanism
+3. Observability
+4. Workflow state management
+5. Easy to develop
+
 </div>
 
+</div>
